@@ -1,0 +1,40 @@
+##.eslintrc
+{
+	"parserOptions": {
+		"ecmaVersion": 2018,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"jsx": true
+		}
+	},
+	"env": {
+		"browser": true,
+		"node": true
+	},
+	"extends": ["airbnb", "prettier"],
+  "plugins": ["prettier", "react"],
+  "rules": {
+		"prettier/prettier": ["error"],
+		"no-console": 0,
+		"react/prop-types": 0,
+		"jsx-a11y/anchor-is-valid": 0,
+		"jsx-a11y/label-has-for": 0,
+		"jsx-a11y/label-has-associated-control": 0
+  }
+}
+
+##package.json
+"devDependencies": {
+
+		"nodemon": "^1.19.0",
+		"webpack": "^4.30.0"
+		"eslint": "^5.16.0",
+		"eslint-plugin-import": "2.14.0",
+		"eslint-plugin-jsx-a11y": "6.1.1",
+		"eslint-plugin-prettier": "^3.0.1",
+		"eslint-plugin-react": "7.11.0",
+		"eslint-plugin-react-hooks": "^1.6.0",
+		"eslint-config-prettier": "^4.2.0",
+		"eslint-config-airbnb": "17.1.0",
+		"prettier": "^1.17.0",
+	}
