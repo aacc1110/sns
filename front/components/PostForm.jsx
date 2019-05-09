@@ -1,24 +1,10 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
+import { useSelector } from 'react-redux';
 
-const dummy = {
-  isLoggedIn: true,
-  imagePaths: [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShDhVXpErpHMvQZ2XR_BdUC21szZpIJJE__3lScNOTs29qpUjx',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYjqs8m7jXDQV1-x0hTvfDsk4vgSaUnZcDBdzo03d8GKF1JkfEAQ',
-  ],
-  mainPosts: [
-    {
-      User: {
-        id: 1,
-        nickName: '에이에이',
-      },
-      content: '첫번째 게시글',
-      img: 'https://t1.daumcdn.net/cfile/tistory/99DF78385C94985D0F',
-    },
-  ],
-};
 const PostForm = () => {
+  const { imagePaths } = useSelector((state) => state.post);
+  console.log('imagePaths.length');
   return (
     <div>
       <Form encType="multipart/form-data" style={{ marginBottom: 20 }}>
@@ -29,7 +15,7 @@ const PostForm = () => {
           짹짹
         </Button>
         <div>
-          {dummy.imagePaths.map((v) => {
+          {imagePaths.map((v) => {
             return (
               <div key={v} style={{ display: 'inline-block' }}>
                 <img src={v} style={{ width: '100px' }} alt={v} />

@@ -1,5 +1,7 @@
 import React, { useState, useCallback, memo } from 'react';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { useDispatch } from 'react-redux';
+import { signUpAction } from '../reducers/user';
 
 /**
  * Input Box 최적화
@@ -16,13 +18,15 @@ export const useInput = (initValue = null) => {
 };
 
 const Signup = () => {
-  const [id, onChangeId] = useInput('');
-  const [nickName, onChangeNickname] = useInput('');
-  const [password, onChangePassword] = useInput('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [term, setTerm] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [termError, setTermError] = useState(false);
+
+  const [id, onChangeId] = useInput('');
+  const [nickName, onChangeNickname] = useInput('');
+  const [password, onChangePassword] = useInput('');
+  const dispatch = useDispatch();
 
   const onSubmit = useCallback(
     (e) => {
@@ -33,7 +37,8 @@ const Signup = () => {
       if (!term) {
         return setTermError(true);
       }
-      return false;
+      dispatch(signUpAction({ id, password, nickName }));
+      return null;
     },
     [password, passwordCheck, term],
   );
