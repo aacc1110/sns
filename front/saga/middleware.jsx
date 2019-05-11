@@ -1,4 +1,4 @@
 import createSagaMiddleware from 'redux-saga';
 
-const sagaMiddleware = createSagaMiddleware();
-export default sagaMiddleware;
+const sageMiddleware = createSagaMiddleware();
+export default sageMiddleware;

@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import AppLayout from '../components/AppLaout';
 import reducer from '../reducers';
-import sagaMiddleware from '../saga/middleware';
+import sageMiddleware from '../saga/middleware';
 import rootSaga from '../saga';
 
 const Sns = ({ Component, store }) => {
@@ -25,7 +25,7 @@ const Sns = ({ Component, store }) => {
 };
 
 export default withRedux((initialState) => {
-  const middlewares = [sagaMiddleware];
+  const middlewares = [sageMiddleware];
   const enhancer =
     process.env.NODE_ENV === 'production'
       ? compose(applyMiddleware(...middlewares))
@@ -35,6 +35,6 @@ export default withRedux((initialState) => {
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
       : (f) => f, */
   const store = createStore(reducer, initialState, enhancer);
-  sagaMiddleware.run(rootSaga);
+  sageMiddleware.run(rootSaga);
   return store;
 })(Sns);
