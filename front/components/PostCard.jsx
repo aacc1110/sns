@@ -16,7 +16,7 @@ const PostCard = ({ post }) => {
         extra={<Button>팔로우</Button>}
       >
         <Card.Meta
-          avatar={<Avatar>{post.User.nickName[0]}</Avatar>}
+          avatar={<Avatar>{post.User.nickName}</Avatar>}
           title={post.User.nickName}
           description={post.content}
         />

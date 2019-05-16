@@ -4,9 +4,10 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import createSagaMiddleware from 'redux-saga';
+
 import AppLayout from '../components/AppLaout';
 import reducer from '../reducers';
-import sageMiddleware from '../saga/middleware';
 import rootSaga from '../saga';
 
 const Sns = ({ Component, store }) => {
@@ -25,6 +26,7 @@ const Sns = ({ Component, store }) => {
 };
 
 export default withRedux((initialState) => {
+  const sageMiddleware = createSagaMiddleware();
   const middlewares = [sageMiddleware];
   const enhancer =
     process.env.NODE_ENV === 'production'

@@ -1,18 +1,15 @@
-import React, { useState, useCallback, memo } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
-import { useDispatch } from 'react-redux';
-import { signUpAction } from '../reducers/user';
+import React, { useCallback, useState, useEffect } from 'react';
+import { Button, Checkbox, Form, Input } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
+import Router from 'next/router';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 
-/**
- * Input Box 최적화
- */
-const TextInput = memo(({ value, onChange }) => {
-  return <Input value={value} onChange={onChange} required />;
-});
+const TextInput = ({ value }) => <div>{value}</div>;
+
 export const useInput = (initValue = null) => {
-  const [value, setTer] = useState(initValue);
+  const [value, setter] = useState(initValue);
   const handler = useCallback((e) => {
-    setTer(e.target.value);
+    setter(e.target.value);
   }, []);
   return [value, handler];
 };
@@ -24,9 +21,17 @@ const Signup = () => {
   const [termError, setTermError] = useState(false);
 
   const [id, onChangeId] = useInput('');
-  const [nickName, onChangeNickname] = useInput('');
+  const [nick, onChangeNick] = useInput('');
   const [password, onChangePassword] = useInput('');
   const dispatch = useDispatch();
+  const { isSigningUp, me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (me) {
+      alert('로그인했으니 메인페이지로 이동합니다.');
+      Router.push('/');
+    }
+  }, [me && me.id]);
 
   const onSubmit = useCallback(
     (e) => {
@@ -37,10 +42,16 @@ const Signup = () => {
       if (!term) {
         return setTermError(true);
       }
-      dispatch(signUpAction({ id, password, nickName }));
-      return null;
+      return dispatch({
+        type: SIGN_UP_REQUEST,
+        data: {
+          userId: id,
+          password,
+          nickname: nick,
+        },
+      });
     },
-    [password, passwordCheck, term],
+    [id, nick, password, passwordCheck, term],
   );
 
   const onChangePasswordCheck = useCallback(
@@ -50,6 +61,7 @@ const Signup = () => {
     },
     [password],
   );
+
   const onChangeTerm = useCallback((e) => {
     setTermError(false);
     setTerm(e.target.checked);
@@ -58,45 +70,48 @@ const Signup = () => {
   return (
     <>
       <Form onSubmit={onSubmit} style={{ padding: 10 }}>
+        <TextInput value="135135" />
         <div>
           <label htmlFor="user-id">아이디</label>
           <br />
-          <TextInput name="user-id" value={id} onChange={onChangeId} />
+          <Input name="user-id" value={id} required onChange={onChangeId} />
         </div>
         <div>
-          <label htmlFor="user-nickName">닉네임</label>
+          <label htmlFor="user-nick">닉네임</label>
           <br />
-          <TextInput name="user-nickName" value={nickName} onChange={onChangeNickname} />
+          <Input name="user-nick" value={nick} required onChange={onChangeNick} />
         </div>
         <div>
           <label htmlFor="user-password">비밀번호</label>
           <br />
-          <TextInput
+          <Input
             name="user-password"
-            value={password}
-            onChange={onChangePassword}
             type="password"
+            value={password}
+            required
+            onChange={onChangePassword}
           />
         </div>
         <div>
-          <label htmlFor="user-passwordCheck">비밀번호 확인</label>
+          <label htmlFor="user-password-check">비밀번호체크</label>
           <br />
           <Input
-            name="user-passwordCheck"
-            value={passwordCheck}
-            onChange={onChangePasswordCheck}
+            name="user-password-check"
             type="password"
+            value={passwordCheck}
             required
+            onChange={onChangePasswordCheck}
           />
           {passwordError && <div style={{ color: 'red' }}>비밀번호가 일치하지 않습니다.</div>}
         </div>
         <div>
-          <Checkbox name="user-term" value={term} onChange={onChangeTerm} required />
-          약관에 동의합니다.
+          <Checkbox name="user-term" value={term} onChange={onChangeTerm}>
+            제로초 말을 잘 들을 것을 동의합니다.
+          </Checkbox>
           {termError && <div style={{ color: 'red' }}>약관에 동의하셔야 합니다.</div>}
         </div>
         <div style={{ marginTop: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isSigningUp}>
             가입하기
           </Button>
         </div>
@@ -104,4 +119,5 @@ const Signup = () => {
     </>
   );
 };
+
 export default Signup;

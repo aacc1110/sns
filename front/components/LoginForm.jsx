@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Form, Input, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useInput } from '../pages/signup';
-import { loginAction } from '../reducers/user';
+import { LOG_IN_SUCCESS } from '../reducers/user';
 
 const LoginForm = () => {
   const [userId, onChangeId] = useInput('');
@@ -13,8 +13,8 @@ const LoginForm = () => {
   const onSubmitForm = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(loginAction);
-      console.log('loginAction', loginAction);
+      dispatch(LOG_IN_SUCCESS);
+      console.log('loginAction', LOG_IN_SUCCESS);
     },
     [userId, userPassword],
   );
