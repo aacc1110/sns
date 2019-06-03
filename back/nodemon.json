@@ -1,5 +1,12 @@
 {
-	"watch": ["index.js", "index.jsx", "routes", "config", "passport", "models", "nodemon.json"],
-	"exec": "node index.jsx",
-	"ext": "js json jsx"
+  "watch": [
+    "index.js",
+    "routes",
+    "config",
+    "passport",
+    "models",
+    "nodemon.json"
+  ],
+  "exec": "node index.js",
+  "ext": "js json"
 }
